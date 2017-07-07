@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-md-5 col-sm-12">
+        <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite">Showing
+            <%= page %>
+            di <%= page_count %>
+            su <%= total_items %> record
+        </div>
+    </div>
+    <div class="col-md-7 col-sm-12">
+        <div class="" id="sample_1_paginate">
+            <ul class="pagination" style="visibility: visible;">
+                <%
+                var first_class='disabled'
+                var prev_class='disabled'
+                if( page > 1) {
+                prev_class='prev';
+                first_class='first';
+                }
+                %>
+                <li class="<%= first_class %>">
+                    <a href="#" title="First">
+                        <i class="fa fa-angle-double-left"></i>
+                    </a>
+                </li>
+                <li class="<%= prev_class %>">
+                    <a href="#" title="Prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                </li>
+
+                <% var j=0; %>
+                <% for(i=-3;i <= 3; i++){ %>
+                <% if( page + i >= 0) { %>
+                <% if( i == 0) { %>
+                <li class="active"><a href="#" data_page="<%= page %>"><%= page %></a></li>
+                <% }else if(page + i > 0 && page + i <= page_count) { %>
+                <li class="page" data-page="<%= page + i %>"><a href="#"><%= page + i %></a></li>
+                <% } %>
+                <% } %>
+                <% } %>
+
+                <%
+                var next_class='disabled'
+                var last_class='disabled'
+                if( page < page_count) {
+                next_class='next';
+                last_class='last';
+                }
+                %>
+                <li class="<%= next_class%>" data-page="<%= page + 1 %>">
+                    <a href="#" title="Next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </li>
+                <li class="<%= last_class%>" data-page="<%= page_count %>">
+                    <a href="#" title="Last">
+                        <i class="fa fa-angle-double-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.composer
+.node_modules/
+dist/.node_modules/
+.idea/
+.vagrant/
+vendor/
+config/development.config.php
+data/cache/*
+!data/cache/.gitkeep
+phpunit.xml
+*.old
+composer.lock
+public/js/lib/
+public/js/app/dist
+r.js
