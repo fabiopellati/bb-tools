@@ -10,7 +10,7 @@ var FormFieldEditorView = require('../FormFieldEditorView');
 var TextEditorView;
 TextEditorView = FormFieldEditorView.extend({
     tagName: 'div',
-    template: _.template('<input class="data_editor" />'),
+    template: _.template('<input class="data-editor" />'),
 
     /**
      * inizializza il parent
@@ -48,7 +48,10 @@ TextEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorRender: function (e) {
-        var data = {};
+        var data = {
+            name: this.name
+
+        };
         this.$el.append(this.template(data));
         this.setValue(this.model.get(this.key));
     },
@@ -59,7 +62,7 @@ TextEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorSetValue: function (e) {
-        this.$('.data_editor').val(e.value);
+        this.$('.data-editor').val(e.value);
     },
 
     /**

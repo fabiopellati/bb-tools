@@ -11,18 +11,18 @@
  * - gestisce lo stato delle validazioni inoltrate dal Restful
  *
  * comportamento di default:
- * l'editor presuppone l'esistenza di un elemento con classe .data_editor che esponga la proprietà "value" e possa
+ * l'editor presuppone l'esistenza di un elemento con classe .data-editor che esponga la proprietà "value" e possa
  * lanciare un evento change
  *
- * sull'evento change di .data_editor aggiorna il valore di value ed esegue this.validate; se vengono violate regole
+ * sull'evento change di .data-editor aggiorna il valore di value ed esegue this.validate; se vengono violate regole
  * di validazione viene anciato l'evento editor.value.invalid
  *
  */
 var FormFieldEditorView;
 FormFieldEditorView = Backbone.View.extend({
     events: {
-        'change .data_editor': 'onChange',
-        'keyup .data_editor': 'onKeyUp',
+        'change .data-editor': 'onChange',
+        'keyup .data-editor': 'onKeyUp',
     },
     attributes: {},
     view_attributes: {},
@@ -44,6 +44,7 @@ FormFieldEditorView = Backbone.View.extend({
             this.key = options.key;
             this.model.bind('change:' + this.key, this.onModelChange, this);
         }
+        this.name = (typeof options.name != 'undefined')? options.name : this.key;
 
         this.listenTo(this.model, 'error', this.onModelError, this);
 

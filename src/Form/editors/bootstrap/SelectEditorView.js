@@ -16,7 +16,8 @@ var SelectEditorView = BaseView.extend({
     template: _.template('\
       <label class="<%= attributes.label_class %> control-label" for="<%= editorId %>"><%= title %></label>\
       <div class="<%= attributes.field_class %>">\
-        <select class="<%= attributes.form_control_class %> form-control data_editor" id="<%= editorId %>">\
+        <select class="<%= attributes.form_control_class %> form-control data-editor" id="<%= editorId %>" <%=\
+         disabled%> >\
          <% for(i=0;i < options.length;i++){ %>\
          <% var option=options[i]; %>\
          <option value="<%= option.value %>"><%= option.option %></option>\
@@ -35,6 +36,11 @@ var SelectEditorView = BaseView.extend({
         } else {
             throw new Error("editor bootstrap/SelectEditorView option obbligatoria non definita: 'key' equivalente all'attrib nel model")
         }
+        if (typeof options.readonly != 'undefined' && options.readonly === true) {
+            this.readonly=true;
+        }
+        this.name = (typeof options.name != 'undefined')? options.name : this.key;
+
         this.title = (typeof options.title != 'undefined') ? options.title : this.key;
 
         if (typeof options.label != 'undefined') {
@@ -93,12 +99,14 @@ var SelectEditorView = BaseView.extend({
      */
     onEditorRender: function (e) {
         var data = {
+            name: this.name,
             key: this.key,
             title: this.title, label: this.label,
             help: this.help,
-            editorId: this.key + this.model.cid,
+            editorId: this.name + this.model.cid,
             attributes: this.view_attributes,
-            options: this.options
+            options: this.options,
+            disabled: (this.readonly)?'disabled ':''
         };
         this.$el.attr(this.attributes);
         this.$el.html(this.template(data));

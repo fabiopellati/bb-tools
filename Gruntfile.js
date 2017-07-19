@@ -29,7 +29,7 @@ module.exports = function (grunt) {
         },
         watch: {
             scripts: {
-                files: ['./src/**/*.js', './src/*.js'],
+                files: ['./src/**/*.js', './src/*.js','./src/**/*.html', './src/*.html'],
                 // tasks: ['browserify', 'copy'],
                 tasks: ['browserify', 'uglify'],
                 options: {

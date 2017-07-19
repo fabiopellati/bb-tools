@@ -44,12 +44,15 @@ var SearchView = Backbone.View.extend({
      * @param e
      */
     search: function (e) {
-        if (e.key.length != 1
-            && e.keyCode != 8
-            && e.keyCode != 46
-        ) {
+        if (e.keyCode != 13) {
             return;
         }
+        // if (e.key.length != 1
+        //     && e.keyCode != 8
+        //     && e.keyCode != 46
+        // ) {
+        //     return;
+        // }
         var data = {
             search: e.currentTarget.value,
             search_into: this.search_columns

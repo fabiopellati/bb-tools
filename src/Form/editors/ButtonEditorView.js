@@ -37,10 +37,11 @@ var ButtonEditorView = BaseView.extend({
         onEditorRender: function (e) {
             // console.log({'onEditorRender':e});
             var data = {
+                name: this.name,
                 key: this.key,
                 title: this.title, label: this.label,
                 help: this.help,
-                editorId: this.key + this.model.cid,
+                editorId: this.name + this.model.cid,
                 attributes: this.view_attributes
             };
 

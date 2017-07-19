@@ -16,7 +16,7 @@ var SelectModelEditorView = BaseView.extend({
     template: _.template('\
       <label class="<%= attributes.label_class %> control-label" for="<%= editorId %>"><%= title %></label>\
       <div class="<%= attributes.field_class %>">\
-        <select class="<%= attributes.form_control_class %> form-control data_editor" id="<%= editorId %>">\
+        <select class="<%= attributes.form_control_class %> form-control data-editor" id="<%= editorId %>">\
          <% for(i=0;i < options.length;i++){ %>\
          <% var option=options[i]; %>\
          <option value="<%= option.value %>"><%= option.option %></option>\
@@ -35,6 +35,8 @@ var SelectModelEditorView = BaseView.extend({
         } else {
             throw new Error("editor bootstrap/SelectModelEditorView option obbligatoria non definita: 'key' equivalente all'attrib nel model")
         }
+        this.name = (typeof options.name != 'undefined')? options.name : this.key;
+
         if (!options.collection.prototype instanceof Backbone.Collection) {
             throw new Error("editor bootstrap/SelectModelEditorView option deve essere un model");
             return;
@@ -114,10 +116,12 @@ var SelectModelEditorView = BaseView.extend({
     onEditorRender: function (e) {
         // console.log({'onEditorRender':e});
         var data = {
+            name: this.name,
+
             key: this.key,
             title: this.title, label: this.label,
             help: this.help,
-            editorId: this.key + this.model.cid,
+            editorId: this.name + this.model.cid,
             attributes: this.view_attributes,
             options: this.options
         };

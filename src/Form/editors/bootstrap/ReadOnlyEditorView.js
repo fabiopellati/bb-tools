@@ -5,13 +5,19 @@
  * specs:
  *
  */
-var TextEditorTemplate = require('./template/TextEditorTemplate.html');
-var ReadOnlyTextEditorTemplate = require('./template/ReadOnlyTextEditorTemplate.html');
 var FormFieldEditorView = require('../../FormFieldEditorView');
 
 var TextEditorView = FormFieldEditorView.extend({
     tagName: 'div',
-    template: _.template(TextEditorTemplate),
+    template: _.template('\
+      <label class="<%= attributes.label_class %> control-label" for="<%= editorId %>"><%= title %></label>\
+      <div class="<%= attributes.field_class %>">\
+        <div class="<%= attributes.form_control_class %> form-control data-editor " id="<%= editorId %>" readonly></div>\
+        <p class="<%= attributes.data_error_class %> help-block data-error"></p>\
+        <p class="<%= attributes.help_block_class %>help-block"><%= help %></p>\
+      </div>\
+    '),
+
 
     view_attributes: {
         label_class: 'col-md-3',
@@ -32,11 +38,6 @@ var TextEditorView = FormFieldEditorView.extend({
         } else {
             throw new Error("editor bootstrap/InputTextEditorView option obbligatoria non definita: 'key' equivalente all'attrib nel model")
         }
-        if (typeof options.readonly != 'undefined' && options.readonly === true) {
-            this.readonly=true;
-            this.template = _.template(ReadOnlyTextEditorTemplate);
-        }
-
         this.title = (typeof options.title != 'undefined') ? options.title : this.key;
         this.help = (typeof options.help != 'undefined') ? options.help : '';
 
@@ -115,16 +116,6 @@ var TextEditorView = FormFieldEditorView.extend({
     },
 
     /**
-     * scrive il valore etnendo conto del tipo di template caricato
-     * @param value
-     */
-    writeValue: function (value) {
-        if (this.readonly) {
-            this.$('.data-editor').text(value);
-        } else {
-            this.$('.data-editor').val(value);
-        }
-    }, /**
      * listener dell'evento editor.set.value
      *
      * @param e
@@ -132,9 +123,8 @@ var TextEditorView = FormFieldEditorView.extend({
     onEditorSetValue: function (e) {
         this.$el.removeClass('has-error');
         this.$el.find('.help-block.data-error').empty();
-        this.writeValue(e.value);
+        this.writeValue(e.value)
     },
-
 
     /**
      * evento generico

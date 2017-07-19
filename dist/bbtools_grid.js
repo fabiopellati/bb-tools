@@ -59,18 +59,22 @@ CrudGridRouter = Backbone.Router.extend({
 
     /**
      * listener dell'evento model change:[attribute]
-     * @param e
+     * @param response
      */
-    onModelError: function (model, e) {
-        if (e.status == 422) {
-            if (_.has(e.responseJSON.validation_messages, this.key)) {
-                var messages = _.propertyOf(e.responseJSON.validation_messages)(this.key);
+    onModelError: function (model, response, options) {
+        // console.log(model);
+        // console.log(response);
+        // console.log(options);
+        // return;
+        if (response.status == 422) {
+            if (_.has(response.responseJSON.validation_messages, this.key)) {
+                var messages = _.propertyOf(response.responseJSON.validation_messages)(this.key);
                 this.trigger('editor.model.error', {'messages': messages});
             }
         }
         App.unblockUI();
-        var message = "<h4>"+ e.statusText +"</h4>";
-        message = message + "<h5>" + e.responseText + "</h5>";
+        var message = "<h4>"+ response.statusText +"</h4>";
+        message = message + "<h5>" + response.responseText + "</h5>";
         var modal_options = {
             buttons: ['ok'],
             message: message
@@ -480,12 +484,12 @@ var BodyRowView = Backbone.View.extend({
 
         selectRow: function (id) {
             this.$el.addClass('selected');
-            this.model.trigger('select', {id: id});
+            this.model.trigger('select', {id: this.model.getIdentifier()});
 
         },
         unSelectRow: function (id) {
             this.$el.removeClass('selected');
-            this.model.trigger('unselect', {id: id});
+            this.model.trigger('unselect', {id:  this.model.getIdentifier()});
 
         },
         /**
@@ -1119,12 +1123,15 @@ var SearchView = Backbone.View.extend({
      * @param e
      */
     search: function (e) {
-        if (e.key.length != 1
-            && e.keyCode != 8
-            && e.keyCode != 46
-        ) {
+        if (e.keyCode != 13) {
             return;
         }
+        // if (e.key.length != 1
+        //     && e.keyCode != 8
+        //     && e.keyCode != 46
+        // ) {
+        //     return;
+        // }
         var data = {
             search: e.currentTarget.value,
             search_into: this.search_columns

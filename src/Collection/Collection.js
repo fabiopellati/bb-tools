@@ -13,12 +13,12 @@ var Collection = Backbone.Collection.extend({
             model.bind('select', this.onSelectModel, this);
             model.bind('unselect', this.onUnSelectModel, this);
         }, this);
-        this.model.on('error', this.onModelError, this);
+        // this.model.on('error', this.onModelError, this);
     },
 
-    onModelError:function(model, response, options){
-        this.trigger('error',{"model":model, "response":response, "options":options});
-    },
+    // onModelError:function(model, response, options){
+    //     this.trigger('error',{"model":model, "response":response, "options":options});
+    // },
 
     delete_selected: function () {
         if (this._selected.length == 0) {

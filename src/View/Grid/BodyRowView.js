@@ -90,12 +90,12 @@ var BodyRowView = Backbone.View.extend({
 
         selectRow: function (id) {
             this.$el.addClass('selected');
-            this.model.trigger('select', {id: id});
+            this.model.trigger('select', {id: this.model.getIdentifier()});
 
         },
         unSelectRow: function (id) {
             this.$el.removeClass('selected');
-            this.model.trigger('unselect', {id: id});
+            this.model.trigger('unselect', {id:  this.model.getIdentifier()});
 
         },
         /**
