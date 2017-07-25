@@ -55,17 +55,33 @@ var Router = Backbone.Router.extend({
     },
     /**
      * listener dell'evento model change:[attribute]
-     * @param e
+     * @param response
      */
-    onModelError: function (model, e) {
-        console.log(e);
-        if (e.status == 422) {
-            if (_.has(e.responseJSON.validation_messages, this.key)) {
-                var messages = _.propertyOf(e.responseJSON.validation_messages)(this.key);
+    onModelError: function (model, response, options) {
+        console.log(response);
+        if (response.status == 422) {
+            if (_.has(response.responseJSON.validation_messages, this.key)) {
+                var messages = _.propertyOf(response.responseJSON.validation_messages)(this.key);
                 this.trigger('editor.model.error', {'messages': messages});
             }
-        }
+            var message = "<h4>Entità non processabile</h4>";
+            message = message + "<h5>" + response.responseJSON.detail + "</h5>";
+            var modal_options = {
+                buttons: ['ok'],
+                message: message
+            };
+        } else {
 
+            var message = "<h4>" + response.responseJSON.title + "</h4>";
+            message = message + "<h5>" + response.responseJSON.detail + "</h5>";
+            var modal_options = {
+                buttons: ['ok'],
+                message: message
+            };
+        }
+            App.unblockUI();
+        var modal = new BbTools.View.Modal.Responsive(modal_options);
+        modal.show();
     },
 
 

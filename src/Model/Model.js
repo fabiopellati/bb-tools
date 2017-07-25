@@ -21,18 +21,6 @@ var Model = Backbone.Model.extend({
     onUnSelect: function (e) {
     },
 
-    /**
-     * idrata il model partendo dall'oggetto passato come data
-     *
-     * @param data
-     * @returns {*}
-     */
-    parse: function (data) {
-        _.mapObject(data, function (value, key) {
-            this.key = new Backbone.Model(value);
-        }, data);
-        return data;
-    },
 
     /**
      * restituisce il testo per identificare il model nelle interfaccie
