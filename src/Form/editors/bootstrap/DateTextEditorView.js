@@ -33,10 +33,8 @@ var DateTextEditorView = FormFieldEditorView.extend({
         if (typeof options.read_replace != 'undefined') {
             this.read_replace =  options.read_replace;
         } else {
-            this.read_replace = '$1/$2/$3';
+            this.read_replace = '$3/$2/$1';
         }
-
-
     },
 
     /**

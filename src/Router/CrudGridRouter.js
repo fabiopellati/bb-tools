@@ -50,7 +50,7 @@ CrudGridRouter = Backbone.Router.extend({
      * @param options
      */
     onRequest: function (model, xhr, options) {
-        xhr.then(function () {
+        xhr.success(function () {
             App.unblockUI();
         });
         App.blockUI();
@@ -61,10 +61,6 @@ CrudGridRouter = Backbone.Router.extend({
      * @param response
      */
     onModelError: function (model, response, options) {
-        // console.log(model);
-        // console.log(response);
-        // console.log(options);
-        // return;
         if (response.status == 422) {
             if (_.has(response.responseJSON.validation_messages, this.key)) {
                 var messages = _.propertyOf(response.responseJSON.validation_messages)(this.key);
@@ -72,7 +68,7 @@ CrudGridRouter = Backbone.Router.extend({
             }
         }
         App.unblockUI();
-        var message = "<h4>"+ response.statusText +"</h4>";
+        var message = "<h4>" + response.statusText + "</h4>";
         message = message + "<h5>" + response.responseText + "</h5>";
         var modal_options = {
             buttons: ['ok'],
@@ -116,6 +112,7 @@ CrudGridRouter = Backbone.Router.extend({
      */
     onFilter: function (e) {
         var route = this.composeRoute();
+
         this.navigate(route, {replace: true});
         this.goFetch();
 
@@ -148,47 +145,50 @@ CrudGridRouter = Backbone.Router.extend({
     goMode: function (mode, page, second_a, second_b, third_a, third_b, fourth_a, fourth_b) {
         this.reset();
         var mode_split = mode.split('');
+
         var first = mode_split.shift();
         if (_.isNull(page)) page = 1;
 
         this.page = page;
-        var parserMode = function (mode, a, b,that) {
-            if (mode == 'o') {
+        var parserMode = function (mode, a, b, that) {
+            if (_.isNull(a) || _.isNull(b)) return;
+            if (mode === 'o') {
                 that.order = a;
                 that.order_direction = b;
                 that.gridView.defaultOrder(that.order, that.order_direction);
-            } else if (mode == 's') {
+            } else if (mode === 's') {
                 that.query = a;
                 that.search_into = b;
                 that.searchView.default(that.query);
-            } else if (mode == 'f') {
+            } else if (mode === 'f') {
                 if (_.isString(a)) {
-                    a =a.split(',')
+                    a = a.split(',')
                 }
                 if (_.isString(b)) {
-                    b =b.split(',')
+                    b = b.split(',')
                 }
 
                 var values = _.object(a, b);
                 _.each(values, function (element, index, list) {
-                        that.filters.set(index,element);
-                }) ;
+                    that.filters.set(index, element);
+                });
             }
 
         };
 
         var second = mode_split.shift();
         if (typeof second != 'undefined') {
-            parserMode(second, second_a, second_b,this);
+            parserMode(second, second_a, second_b, this);
         }
         var third = mode_split.shift();
         if (typeof third != 'undefined') {
-            parserMode(third, third_a, third_b,this);
+            parserMode(third, third_a, third_b, this);
         }
         var fourth = mode_split.shift();
         if (typeof fourth != 'undefined') {
-            parserMode(fourth, fourth_a, fourth_b,this);
+            parserMode(fourth, fourth_a, fourth_b, this);
         }
+
         this.goFetch();
     },
 
@@ -200,6 +200,7 @@ CrudGridRouter = Backbone.Router.extend({
      * questo evento viene gestito dalla callback error che imposta la pagina a 1
      */
     goFetch: function () {
+
         var data = {};
         if (!_.isNull(this.page)) data.page = this.page;
         if (!_.isNull(this.query)) data.search = this.query;
@@ -210,13 +211,19 @@ CrudGridRouter = Backbone.Router.extend({
         if (!_.isNull(this.order)) data.order = this.order;
         if (!_.isNull(this.order)) data.order_direction = this.order_direction;
         if (!_.isNull(this.filters)) data.filters_keys = _.keys(this.filters.attributes);
-        if (_.isString(data.filters_keys)) {
-            data.filters_keys = data.filters_keys.split(',')
-        }
-        if (!_.isNull(this.filters)) data.filters_values = _.values(this.filters.attributes);
-        if (_.isString(data.filters_values)) {
-            data.filters_values = data.filters_values.split(',')
-        }
+
+        // if (
+        //     !_.isNull(data.filters_keys) && !_.isNull(data.filters_values)
+        //     && !_.isUndefined(data.filters_keys) && !_.isUndefined(data.filters_values)
+        // ) {
+            if (_.isString(data.filters_keys)) {
+                data.filters_keys = data.filters_keys.split(',')
+            }
+            if (!_.isNull(this.filters)) data.filters_values = _.values(this.filters.attributes);
+            if (_.isString(data.filters_values)) {
+                data.filters_values = data.filters_values.split(',')
+            }
+        // }
         var that = this;
         var options = {
             error: function (e) {
@@ -253,7 +260,6 @@ CrudGridRouter = Backbone.Router.extend({
     composeRoute: function () {
         var route = '';
         var mode = 'p';
-
         if (_.isNull(this.page) || _.isUndefined(this.page)) this.page = 1;
         // if(!_.isNull(this.query)) this.page=1;
         route += this.page;
