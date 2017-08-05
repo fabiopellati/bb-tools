@@ -17,7 +17,8 @@ var PageNavigatorView = Backbone.View.extend({
         'click .pagination .next': 'next',
         'click .pagination .prev': 'prev',
         'click .pagination .last': 'last',
-        'click .pagination .page': 'page'
+        'click .pagination .page': 'page',
+        'click .pagination .refresh': 'refresh'
     },
 
     render: function () {
@@ -74,6 +75,11 @@ var PageNavigatorView = Backbone.View.extend({
 
         data.nav_pages = nav_pages;
         this.$el.html(this.template(data));
+    },
+    refresh: function (e) {
+        this.trigger('go', {page: e.currentTarget.dataset.page});
+
+        // this.collection.first_page();
     },
     first: function (e) {
         this.trigger('go', {page: e.currentTarget.dataset.page});
