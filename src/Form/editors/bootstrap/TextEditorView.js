@@ -21,6 +21,7 @@ var TextEditorView = FormFieldEditorView.extend({
         help_block_class: ''
     },
 
+
     /**
      *
      * @param options
@@ -33,7 +34,7 @@ var TextEditorView = FormFieldEditorView.extend({
             throw new Error("editor bootstrap/InputTextEditorView option obbligatoria non definita: 'key' equivalente all'attrib nel model")
         }
         if (typeof options.readonly != 'undefined' && options.readonly === true) {
-            this.readonly=true;
+            this.readonly = true;
             this.template = _.template(ReadOnlyTextEditorTemplate);
         }
 
@@ -101,13 +102,15 @@ var TextEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorRender: function (e) {
+        this.$el.empty();
         var data = {
             name: this.name,
             key: this.key,
             title: this.title,
             help: this.help,
             editorId: this.name + this.model.cid,
-            attributes: this.view_attributes
+            attributes: this.view_attributes,
+            input_attributes: this.input_attributes
         };
         this.$el.attr(this.attributes);
         this.$el.html(this.template(data));
@@ -124,7 +127,17 @@ var TextEditorView = FormFieldEditorView.extend({
         } else {
             this.$('.data-editor').val(value);
         }
-    }, /**
+    },
+    /**
+     *
+     *
+     */
+    focus: function () {
+        this.$('.data-editor').focus();
+        this.trigger('editor.focus', this);
+
+    },
+    /**
      * listener dell'evento editor.set.value
      *
      * @param e

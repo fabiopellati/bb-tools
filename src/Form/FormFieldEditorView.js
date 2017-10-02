@@ -23,9 +23,12 @@ FormFieldEditorView = Backbone.View.extend({
     events: {
         'change .data-editor': 'onChange',
         'keyup .data-editor': 'onKeyUp',
+        'blur .data-editor': 'onBlur',
+        'focus .data-editor': 'onFocus',
     },
     attributes: {},
     view_attributes: {},
+    input_attributes: {},
     initialize: function (options) {
         if (!options.model) throw new Error("option obbligatoria non definita: 'model'");
         if (typeof  options.onEvent == 'function') {
@@ -38,6 +41,7 @@ FormFieldEditorView = Backbone.View.extend({
             this.onKeyUp = options.onKeyUp;
         }
         this.view_attributes = (typeof options.view_attributes != 'undefined') ? options.view_attributes : this.view_attributes;
+        this.input_attributes = (typeof options.input_attributes != 'undefined') ? options.input_attributes : this.input_attributes;
 
         this.bind('editor.value.invalid', this.onValueInvalid);
         if (typeof options.key != 'undefined') {
@@ -57,6 +61,7 @@ FormFieldEditorView = Backbone.View.extend({
     render: function (options) {
         // console.log({'render':options});
         // console.trace();
+
         this.trigger('editor.render', {'editor': this});
 
         return this;
@@ -69,6 +74,23 @@ FormFieldEditorView = Backbone.View.extend({
      */
     onEvent: function (e) {
         this.trigger('editor.event', this);
+    },
+
+    /**
+     * evento blur
+     *
+     * @param e
+     */
+    onBlur: function (e) {
+        this.trigger('editor.blur', this);
+    },
+    /**
+     * evento focus
+     *
+     * @param e
+     */
+    onFocus: function (e) {
+        this.trigger('editor.focus', this);
     },
 
     /**
@@ -134,6 +156,7 @@ FormFieldEditorView = Backbone.View.extend({
         var value = e.currentTarget.value;
         value = this.filter(value);
         this.model.set(this.key, value);
+        this.trigger('editor.change', e);
     },
 
     /**
@@ -141,6 +164,7 @@ FormFieldEditorView = Backbone.View.extend({
      * @param e
      */
     onKeyUp:function(e){
+        this.trigger('editor.keyup', e);
 
     },
 

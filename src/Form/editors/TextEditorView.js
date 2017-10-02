@@ -48,6 +48,7 @@ TextEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorRender: function (e) {
+        this.$el.empty();
         var data = {
             name: this.name
 

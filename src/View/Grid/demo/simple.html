@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simmple Grid</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.js"></script>
+
+    <script src="../../../../dist/bbtools_grid.js"></script>
+
+</head>
+<body>
+<div class="grid"></div>
+<script type="application/javascript">
+    console.log($);
+    var Model = Backbone.Model.extend({
+        defaults:{
+            id:'',
+            first_name:'',
+            last_name:''
+        }
+    });
+    
+    var Collection= Backbone.Collection.extend({
+        model:Model
+    });
+    
+    var collection=new Collection;
+    console.log(collection);
+    var view=new Backbone.View({
+        tagName:'p',
+        el:'.grid'
+    });
+//    var grid = new BbToolsGrid.Grid.TableView({
+//        collection: collection,
+//        columns: {
+//            select: {
+//                view: 'BbToolsGrid.Grid.BodyCellCheckboxView',
+//                options: {
+//                    attributes: {
+//                        class: "mt-checkbox mt-checkbox-outline",
+//                        name: "select_row"
+//                    }
+//                },
+//                attributes: {
+//                    style: "width:36px",
+//                }
+//            },
+//            id: 'id',
+//            first_name: 'first name',
+//            last_name: 'last name',
+//        },
+//        attributes: {
+//            class: 'table table-hover'
+//        },        el:'.el',
+//        BodyView: BbToolsGrid.Grid.BodyView
+//
+//    });
+//    grid.render();
+    $(document).ready(function() {
+
+        collection.fetch();
+    });
+
+</script>
+</body>
+</html>

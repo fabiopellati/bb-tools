@@ -7,7 +7,7 @@
  */
 var FormFieldEditorView = require('../../FormFieldEditorView');
 
-var TextEditorView = FormFieldEditorView.extend({
+var ReadOnlyEditorView = FormFieldEditorView.extend({
     tagName: 'div',
     template: _.template('\
       <label class="<%= attributes.label_class %> control-label" for="<%= editorId %>"><%= title %></label>\
@@ -102,6 +102,7 @@ var TextEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorRender: function (e) {
+        this.$el.empty();
         var data = {
             name: this.name,
             key: this.key,
@@ -138,4 +139,4 @@ var TextEditorView = FormFieldEditorView.extend({
 
 
 });
-module.exports = TextEditorView;
+module.exports = ReadOnlyEditorView;
