@@ -72,9 +72,8 @@ var ReadOnlyEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorModelError: function (e) {
-        this.$el.addClass('has-error');
-
-        this.$el.find('.help-block.data-error').empty();
+        this.resetStatusClass();
+        this.resetDataError();
 
         _.mapObject(e.messages, function (val, key) {
             var message = document.createElement('div');
@@ -91,8 +90,11 @@ var ReadOnlyEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorModelSuccess: function (e) {
-        this.$el.removeClass('has-error');
+        this.resetStatusClass();
+        this.resetDataError();
+
         this.$el.addClass('has-success');
+
 
     },
 
@@ -122,7 +124,9 @@ var ReadOnlyEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorSetValue: function (e) {
-        this.$el.removeClass('has-error');
+        this.resetStatusClass();
+        this.resetDataError();
+
         this.$el.find('.help-block.data-error').empty();
         this.writeValue(e.value)
     },

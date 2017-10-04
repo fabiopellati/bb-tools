@@ -6,6 +6,7 @@
  *
  */
 var BaseView = require('../../FormFieldEditorView');
+var SelectEditorTemplate = require('./template/SelectEditorTemplate.html');
 
 /**
  * genera una select con le options statiche
@@ -13,20 +14,7 @@ var BaseView = require('../../FormFieldEditorView');
  */
 var SelectEditorView = BaseView.extend({
     tagName: 'div',
-    template: _.template('\
-      <label class="<%= attributes.label_class %> control-label" for="<%= editorId %>"><%= title %></label>\
-      <div class="<%= attributes.field_class %>">\
-        <select class="<%= attributes.form_control_class %> form-control data-editor" id="<%= editorId %>" <%=\
-         disabled%> >\
-         <% for(i=0;i < options.length;i++){ %>\
-         <% var option=options[i]; %>\
-         <option value="<%= option.value %>"><%= option.option %></option>\
-         <% }%>\
-        </select>\
-        <p class="<%= attributes.data_error_class %> help-block data-error"></p>\
-        <p class="<%= attributes.help_block_class %>help-block"><%= help %></p>\
-      </div>\
-    '),
+    template: _.template(SelectEditorTemplate),
     options: [],
     label: 'label',
     initialize: function (options) {
@@ -119,8 +107,8 @@ var SelectEditorView = BaseView.extend({
      * @param e
      */
     onEditorSetValue: function (e) {
-        this.$el.removeClass('has-error');
-        this.$('.help-block.data-error').empty();
+        this.resetStatusClass();
+        this.resetDataError();
 
         this.$el.find("option[value='" + e.value + "']").attr('selected', 'selected');
     },
@@ -132,8 +120,7 @@ var SelectEditorView = BaseView.extend({
      */
     onEditorModelError: function (e) {
         this.$el.addClass('has-error');
-        this.$('.help-block .data-error').empty();
-
+        this.$el.removeClass('has-warning');
         _.mapObject(e.messages, function (val, key) {
             var message = document.createElement('div');
             var text = document.createTextNode(val);
@@ -149,8 +136,11 @@ var SelectEditorView = BaseView.extend({
      * @param e
      */
     onEditorModelSuccess: function (e) {
-        this.$el.removeClass('has-error');
+        this.resetStatusClass();
+        this.resetDataError();
+
         this.$el.addClass('has-success');
+
 
     }
 });

@@ -184,8 +184,24 @@ FormFieldEditorView = Backbone.View.extend({
      */
     filter: function (value) {
         return value;
-    }
+    },
 
+    /**
+     *
+     */
+    resetStatusClass:function(){
+        this.$el.removeClass('has-error');
+        this.$el.removeClass('has-success');
+        this.$el.removeClass('has-warning');
+        this.$el.find('.help-block.data-error').empty();
+    },
+
+    /**
+     *
+     */
+    resetDataError:function(){
+        this.$el.find('.help-block.data-error').empty();
+    }
 
 });
 module.exports = FormFieldEditorView;

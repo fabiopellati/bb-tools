@@ -84,8 +84,8 @@ var DateTextEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorSetValue: function (e) {
-        this.$el.removeClass('has-error');
-        this.$el.find('.help-block.data-error').empty();
+        this.resetStatusClass();
+        this.resetDataError();
         var value = this.filterForRead(e.value);
         this.writeValue(value)
 

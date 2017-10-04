@@ -6,6 +6,7 @@
  *
  */
 var BaseView = require('../../FormFieldEditorView');
+var SelectEditorTemplate = require('./template/SelectEditorTemplate.html');
 
 /**
  * genera una select con le options basate su una collection
@@ -14,19 +15,7 @@ var BaseView = require('../../FormFieldEditorView');
 var SelectModelEditorView;
 SelectModelEditorView = BaseView.extend({
     tagName: 'div',
-    template: _.template('\
-      <label class="<%= attributes.label_class %> control-label" for="<%= editorId %>"><%= title %></label>\
-      <div class="<%= attributes.field_class %>">\
-        <select class="<%= attributes.form_control_class %> form-control data-editor" id="<%= editorId %>">\
-         <% for(i=0;i < options.length;i++){ %>\
-         <% var option=options[i]; %>\
-         <option value="<%= option.value %>"><%= option.option %></option>\
-         <% }%>\
-        </select>\
-        <p class="<%= attributes.data_error_class %> help-block data-error"></p>\
-        <p class="<%= attributes.help_block_class %>help-block"><%= help %></p>\
-      </div>\
-    '),
+    template: _.template(SelectEditorTemplate),
     options: [],
     label: 'label',
     initialize: function (options) {
@@ -124,13 +113,14 @@ SelectModelEditorView = BaseView.extend({
         // console.log({'onEditorRender':e});
         var data = {
             name: this.name,
-
             key: this.key,
             title: this.title, label: this.label,
             help: this.help,
             editorId: this.name + this.model.cid,
             attributes: this.view_attributes,
-            options: this.options
+            options: this.options,
+            disabled: (this.readonly)?'disabled ':''
+
         };
 
         this.$el.attr(this.attributes);
@@ -144,8 +134,8 @@ SelectModelEditorView = BaseView.extend({
      * @param e
      */
     onEditorSetValue: function (e) {
-        this.$el.removeClass('has-error');
-        this.$('.help-block.data-error').empty();
+        this.resetStatusClass();
+        this.resetDataError();
 
         this.$el.find("option[value='" + e.value + "']").attr('selected', 'selected');
     },
@@ -155,9 +145,9 @@ SelectModelEditorView = BaseView.extend({
      * @param e
      */
     onEditorModelError: function (e) {
+        this.resetStatusClass();
+        this.resetDataError();
         this.$el.addClass('has-error');
-        this.$('.help-block .data-error').empty();
-
         _.mapObject(e.messages, function (val, key) {
             var message = document.createElement('div');
             var text = document.createTextNode(val);
@@ -173,7 +163,8 @@ SelectModelEditorView = BaseView.extend({
      * @param e
      */
     onEditorModelSuccess: function (e) {
-        this.$el.removeClass('has-error');
+        this.resetStatusClass();
+        this.resetDataError();
         this.$el.addClass('has-success');
 
     },

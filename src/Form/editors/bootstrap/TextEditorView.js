@@ -91,7 +91,8 @@ var TextEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorModelSuccess: function (e) {
-        this.$el.removeClass('has-error');
+        this.resetStatusClass();
+        this.resetDataError();
         this.$el.addClass('has-success');
 
     },
@@ -143,8 +144,8 @@ var TextEditorView = FormFieldEditorView.extend({
      * @param e
      */
     onEditorSetValue: function (e) {
-        this.$el.removeClass('has-error');
-        this.$el.find('.help-block.data-error').empty();
+        this.resetStatusClass();
+        this.resetDataError();
         this.writeValue(e.value);
     },
 
