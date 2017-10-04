@@ -639,9 +639,10 @@ var SelectEditorView = BaseView.extend({
      * @param options
      */
     setSelectOptions: function (options) {
-        if (typeof options.options == 'undefined') {
+        if (typeof options.options === 'undefined') {
             return;
         }
+        this.options=[];
         this.options.push({value: '', option: '---'});
         _.each(options.options, function (option) {
             if (typeof option == 'string') {
