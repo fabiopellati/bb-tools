@@ -94,10 +94,17 @@ var Responsive = Backbone.View.extend({
         e.data.this.trigger('modal.before.hide', e);
     },
 
+    /**
+     * le righe 104 105 sono state commentate perchè avevano un effetto non desiderabile:
+     * la prima eliminava completamente dal dom il target che era un campo input di una form
+     * la seconda eliminava la modal ma lasciava nel dom il fadein; se la rimozione dovesse avere degli effetti
+     * altrove cercare una soluzione alternativa
+     * @param e
+     */
     onModalHide: function (e) {
         var that = e.data.this;
         that.trigger('modal.hide', e);
-        e.target.remove();
+        // e.target.remove();
         // that.$('#' + that.id).remove();
     }
 
