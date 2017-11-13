@@ -14,6 +14,7 @@ var Responsive = Backbone.View.extend({
     message: '',
     buttons: ['chiudi'],
     id: 'responsive',
+
     initialize: function (options) {
         if (typeof  options.template != 'undefined') {
             this.template = options.template;
@@ -35,8 +36,6 @@ var Responsive = Backbone.View.extend({
         if (typeof  options.onClose == 'function') {
             this.onClose = options.onClose;
         }
-
-
     },
     render: function () {
         // this._ensureElement();
