@@ -30,8 +30,8 @@ module.exports = function (grunt) {
         watch: {
             scripts: {
                 files: ['./src/**/*.js', './src/*.js','./src/**/*.html', './src/*.html'],
-                tasks: ['browserify', 'copy'],
-                // tasks: ['browserify', 'uglify'],
+                // tasks: ['browserify', 'copy'],
+                tasks: ['browserify', 'uglify'],
                 options: {
                     spawn: false,
                     reload: true
@@ -84,7 +84,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    // grunt.registerTask('default', ['browserify','uglify', 'watch']);
-    grunt.registerTask('default', ['browserify', 'copy', 'watch']);
+    grunt.registerTask('default', ['browserify','uglify', 'watch']);
+    // grunt.registerTask('default', ['browserify', 'copy', 'watch']);
     // grunt.registerTask('watch', ['watch']);
 };
