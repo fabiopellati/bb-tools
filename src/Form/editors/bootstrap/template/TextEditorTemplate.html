@@ -1,6 +1,6 @@
     <% var input_attributes_string = _.reduce(_.pairs(input_attributes), function(result, val){
             return result+val[0]+': \"'+ val[1]+'\" ';
-    }.'') %>
+    },'') %>
 <label class="<%= attributes.label_class %> control-label" for="<%= editorId %>"><%= title %></label>
 <div class="<%= attributes.field_class %>">
     <input class="<%= attributes.form_control_class %> form-control data-editor" id="<%= editorId %>"

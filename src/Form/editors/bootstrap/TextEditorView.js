@@ -37,6 +37,27 @@ var TextEditorView = FormFieldEditorView.extend({
             this.readonly = true;
             this.template = _.template(ReadOnlyTextEditorTemplate);
         }
+      if (typeof options.write_pattern !== 'undefined') {
+        this.write_pattern = options.write_pattern;
+      } else {
+        this.write_pattern = /^(.+)$/;
+      }
+      if (typeof options.write_replace !== 'undefined') {
+        this.write_replace = options.write_replace;
+      } else {
+        this.write_replace = '$1';
+      }
+
+      if (typeof options.read_pattern !== 'undefined') {
+        this.read_pattern = options.read_pattern;
+      } else {
+        this.read_pattern = /^(.+)$/;
+      }
+      if (typeof options.read_replace !== 'undefined') {
+        this.read_replace = options.read_replace;
+      } else {
+        this.read_replace = '$1';
+      }
 
         this.title = (typeof options.title != 'undefined') ? options.title : this.key;
         this.help = (typeof options.help != 'undefined') ? options.help : '';
@@ -146,7 +167,9 @@ var TextEditorView = FormFieldEditorView.extend({
     onEditorSetValue: function (e) {
         this.resetStatusClass();
         this.resetDataError();
-        this.writeValue(e.value);
+      var value = this.filterForRead(e.value);
+
+        this.writeValue(value);
     },
 
 
@@ -158,7 +181,52 @@ var TextEditorView = FormFieldEditorView.extend({
     onEvent: function (e) {
         this.trigger('editor.event', this);
         this.trigger('editor.text.event', this);
+    },
+  /**
+   * filtro da apllicare al value prima di scrivere nel model
+   *
+   * @param value
+   * @returns {*}
+   */
+  filter: function (value) {
+    return this.filterForWrite(value);
+  },
+
+
+  /**
+   * filtra value per la scrittura sul model
+   *
+   * @param value
+   * @returns {*}
+   */
+  filterForWrite: function (value) {
+    var pattern = this.write_pattern;
+    if (_.isString(value) && !_.isEmpty(value)) {
+      if (pattern.test(value)) {
+        var replaced = value.replace(pattern, this.write_replace);
+        return replaced;
+      }
     }
+    return value;
+
+  },
+  /**
+   * filtra value per la scrittura sul model
+   *
+   * @param value
+   * @returns {*}
+   */
+  filterForRead: function (value) {
+    var pattern = this.read_pattern;
+    if (_.isString(value) && !_.isEmpty(value)) {
+      if (pattern.test(value)) {
+        var replaced = value.replace(pattern, this.read_replace);
+        return replaced;
+      }
+    }
+    return value;
+
+  },
 
 
 });
