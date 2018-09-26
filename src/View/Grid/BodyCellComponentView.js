@@ -23,6 +23,7 @@ var BodyCellComponentView = Backbone.View.extend({
         if (typeof this.attributes == 'undefined') this.attributes = {};
         this.attributes = _.extend(this.attributes, {'data-model-id': this.model.get('id')});
         this.$el.attr(this.attributes);
+        this.$el.model=this.model;
         this.$el.append(this.value.render().el);
         this.delegateEvents();
         return this;

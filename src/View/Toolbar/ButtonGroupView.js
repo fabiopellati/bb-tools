@@ -50,6 +50,7 @@ var ButtonGroupView = Backbone.View.extend({
         if (typeof this.attributes != 'undefined') this.$el.attr(this.attributes);
         // this.$el.empty();
         _.each(this.childs, function (child) {
+            child.model=this.model;
             this.$el.append(child.el);
             child.render();
         }, this);
