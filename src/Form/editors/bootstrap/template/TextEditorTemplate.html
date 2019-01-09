@@ -1,10 +1,10 @@
     <% var input_attributes_string = _.reduce(_.pairs(input_attributes), function(result, val){
-            return result+val[0]+': \"'+ val[1]+'\" ';
+            return result+val[0]+'= \"'+ val[1]+'\" ';
     },'') %>
 <label class="<%= attributes.label_class %> control-label" for="<%= editorId %>"><%= title %></label>
 <div class="<%= attributes.field_class %>">
-    <input class="<%= attributes.form_control_class %> form-control data-editor" id="<%= editorId %>"
-    <%= input_attributes_string %>   >
+    <input class="<%= attributes.form_control_class %> form-control data-editor"
+           id="<%= editorId %>" <%= input_attributes_string %>   >
     <p class="<%= attributes.data_error_class %> help-block data-error"></p>
     <p class="<%= attributes.help_block_class %>help-block"><%= help %></p>
 </div>
