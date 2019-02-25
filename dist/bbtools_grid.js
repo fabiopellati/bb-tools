@@ -770,7 +770,8 @@ var HeadRowView = Backbone.View.extend({
                     var cell = new HeadCellComponentView({model: this.model, value: cellView})
                 } else {
                     var label = (typeof value.options.label != 'undefined') ? value.options.label : '';
-                    var cell = new HeadCellStringView({model: this.model, value: key, label: label, sortable: false});
+                    var sortable = (typeof value.options.label != 'undefined') ? value.options.sortable : '';
+                    var cell = new HeadCellStringView({model: this.model, value: key, label: label, sortable: sortable});
                 }
                 cell.bind('sort', this.onSort, this);
             } else if (typeof value == 'string') {
@@ -840,6 +841,7 @@ var HeadRowView = Backbone.View.extend({
     }
 });
 module.exports = HeadRowView;
+
 },{"./HeadCellComponentView":8,"./HeadCellStringView":9}],11:[function(require,module,exports){
 'use strict';
 
