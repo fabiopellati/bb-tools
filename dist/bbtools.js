@@ -321,114 +321,134 @@ module.exports = Model;
 var template = require('./template/responsive.html');
 
 var Responsive = Backbone.View.extend({
-    tagName: 'div',
-    el: 'body',
-    events: {
-        "click button#button-yes": "onYes",
-        "click button#button-no": "onNo",
-        "click button#button-ok": "onOk",
-        "click button#button-cancel": "onCancel",
-    },
-    title: 'Attenzione',
-    message: '',
-    buttons: ['chiudi'],
-    id: 'responsive',
+  tagName: 'div',
+  el: 'body',
+  events: {
+    "click button#button-yes": "onYes",
+    "click button#button-no": "onNo",
+    "click button#button-ok": "onOk",
+    "click button#button-cancel": "onCancel",
+  },
+  title: 'Attenzione',
+  message: '',
+  buttons: ['chiudi'],
+  id: 'responsive',
 
-    initialize: function (options) {
-        if (typeof  options.template != 'undefined') {
-            this.template = options.template;
-        } else {
-            this.template = _.template(template);
-        }
-
-        if (typeof  options.id != 'undefined') {
-            this.id = options.id;
-        }
-        if (typeof  options.title != 'undefined') {
-            this.title = options.title;
-        }
-        if (typeof  options.buttons != 'undefined') {
-            this.buttons = options.buttons;
-        }
-        if (typeof  options.message != 'undefined') {
-            this.message = options.message;
-        }
-        if (typeof  options.onClose == 'function') {
-            this.onClose = options.onClose;
-        }
-    },
-    render: function () {
-        // this._ensureElement();
-        var options = {
-            id: this.id,
-            title: this.title,
-            buttons: this.buttons,
-            message: this.message
-        };
-        this.$('#' + this.id).remove();
-
-        this.$el.append(this.template(options));
-        this.delegateEvents();
-        this.$el.on('show.bs.modal', {this: this}, this.onModalBeforeShow);
-        this.$el.on('shown.bs.modal', {this: this}, this.onModalShow);
-        this.$el.on('hide.bs.modal', {this: this}, this.onModalBeforeHide);
-        this.$el.on('hidden.bs.modal', {this: this}, this.onModalHide);
-        return this;
-    },
-    show: function () {
-        this.render();
-        this.$('#' + this.id).modal('show');
-    },
-
-    onYes: function (e) {
-        this.trigger('yes', e);
-        this.$('#' + this.id).modal('hide');
-    },
-    onNo: function (e) {
-        this.trigger('no', e);
-        this.$('#' + this.id).modal('hide');
-    },
-    onOk: function (e) {
-        this.trigger('ok', e);
-        this.$('#' + this.id).modal('hide');
-    },
-    onCancel: function (e) {
-        this.trigger('cancel', e);
-        this.$('#' + this.id).modal('hide');
-    },
-
-    onClose: function (e) {
-        this.trigger('modal.close', e);
-    },
-
-    onModalBeforeShow: function (e) {
-        e.data.this.trigger('modal.before.show', e);
-    },
-
-    onModalShow: function (e) {
-        e.data.this.trigger('modal.show', e);
-    },
-
-    onModalBeforeHide: function (e) {
-        e.data.this.trigger('modal.before.hide', e);
-    },
-
-    /**
-     * le righe 104 105 sono state commentate perchè avevano un effetto non desiderabile:
-     * la prima eliminava completamente dal dom il target che era un campo input di una form
-     * la seconda eliminava la modal ma lasciava nel dom il fadein; se la rimozione dovesse avere degli effetti
-     * altrove cercare una soluzione alternativa
-     * @param e
-     */
-    onModalHide: function (e) {
-        var that = e.data.this;
-        that.trigger('modal.hide', e);
-        // e.target.remove();
-        // that.$('#' + that.id).remove();
+  initialize: function (options) {
+    if (typeof options.template != 'undefined') {
+      this.template = options.template;
+    } else {
+      this.template = _.template(template);
     }
+
+    if (typeof options.id != 'undefined') {
+      this.id = options.id;
+    }
+    if (typeof options.title != 'undefined') {
+      this.title = options.title;
+    }
+    if (typeof options.buttons != 'undefined') {
+      this.buttons = options.buttons;
+    }
+    if (typeof options.message != 'undefined') {
+      this.message = options.message;
+    }
+    if (typeof options.onClose == 'function') {
+      this.onClose = options.onClose;
+    }
+  },
+  render: function () {
+    // this._ensureElement();
+    var options = {
+      id: this.id,
+      title: this.title,
+      buttons: this.buttons,
+      message: this.message
+    };
+    this.$('#' + this.id).remove();
+
+    this.$el.append(this.template(options));
+    this.delegateEvents();
+    this.$el.one('show.bs.modal', { this: this }, this.onModalBeforeShow);
+    this.$el.one('shown.bs.modal', { this: this }, this.onModalShow);
+    this.$el.one('hide.bs.modal', { this: this }, this.onModalBeforeHide);
+    this.$el.one('hidden.bs.modal', { this: this }, this.onModalHide);
+    return this;
+  },
+  show: function () {
+    this.render();
+    this.$('#' + this.id).modal('show');
+  },
+
+  onYes: function (e) {
+
+    this.trigger('yes', e);
+    this.$('#' + this.id).modal('hide');
+    this.offAll();
+  },
+  onNo: function (e) {
+    this.trigger('no', e);
+    this.$('#' + this.id).modal('hide');
+    this.offAll();
+  },
+  onOk: function (e) {
+    this.trigger('ok', e);
+    this.$('#' + this.id).modal('hide');
+    this.offAll();
+  },
+  onCancel: function (e) {
+    this.trigger('cancel', e);
+    this.$('#' + this.id).modal('hide');
+    this.offAll();
+  },
+
+  onClose: function (e) {
+    this.trigger('modal.close', e);
+    this.offAll();
+  },
+
+  onModalBeforeShow: function (e) {
+    e.data.this.trigger('modal.before.show', e);
+    this.offAll();
+  },
+
+  onModalShow: function (e) {
+    e.data.this.trigger('modal.show', e);
+  },
+
+  onModalBeforeHide: function (e) {
+    e.data.this.trigger('modal.before.hide', e);
+    this.offAll();
+  },
+
+  /**
+   * le righe 104 105 sono state commentate perchè avevano un effetto non desiderabile:
+   * la prima eliminava completamente dal dom il target che era un campo input di una form
+   * la seconda eliminava la modal ma lasciava nel dom il fadein; se la rimozione dovesse avere degli effetti
+   * altrove cercare una soluzione alternativa
+   * @param e
+   */
+  onModalHide: function (e) {
+    var that = e.data.this;
+    that.trigger('modal.hide', e);
+    this.offAll();
+    // e.target.remove();
+    // that.$('#' + that.id).remove();
+  },
+
+  offAll: function () {
+    this.off('yes');
+    this.off('no');
+    this.off('ok');
+    this.off('cancel');
+    this.off('modal.hide');
+    this.off('modal.close');
+    this.off('modal.before.hide');
+  }
 
 });
 module.exports = Responsive;
+
 },{"./template/responsive.html":7}],7:[function(require,module,exports){
 module.exports = "<div id=\"<%- id %>\" class=\"modal responsive fade\" tabindex=\"-1\" aria-hidden=\"true\" data-backdrop=\"static\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <% if(buttons.length<2) { %>\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\"\n                        aria-hidden=\"true\"></button>\n                \n                <% } %>\n                <h4 class=\"modal-title\"><%- title %></h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"scroller\" style=\"height:200px\" data-always-visible=\"1\" data-rail-visible1=\"1\">\n                    <div class=\"row\">\n                        <div class=\"col-md-12\">\n                            <%= message %>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <% _.each(buttons, function(button) { %>\n                    <% if(button==\"yes\"){%>\n                             <button type=\"button\" class=\"btn green\" id=\"button-yes\"\n                                     style=\"padding-left: 20px;padding-right: 20px;\">Si\n                             </button>\n                    <% }%>\n                    <% if(button==\"no\"){%>\n                             <button type=\"button\" class=\"btn blue\" id=\"button-no\"\n                                     style=\"padding-left: 20px;padding-right: 20px;\">No</button>\n                    <% }%>\n                    <% if(button==\"ok\"){%>\n                             <button type=\"button\" class=\"btn green\" id=\"button-ok\"\n                                     style=\"padding-left: 20px;padding-right: 20px;\">Ok</button>\n                    <% }%>\n                    <% if(button==\"cancel\"){%>\n                             <button type=\"button\" class=\"btn green\" id=\"button-cancel\">Cancel</button>\n                    <% }%>\n                    <% if(button==\"chiudi\"){%>\n                <button type=\"button\" data-dismiss=\"modal\" class=\"btn dark btn-outline\">Chiudi</button>\n                    <% }%>\n                \n                <% }) %>\n            </div>\n        </div>\n    </div>\n</div>\n";
 
