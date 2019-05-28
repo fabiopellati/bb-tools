@@ -409,7 +409,6 @@ var Responsive = Backbone.View.extend({
 
   onModalBeforeShow: function (e) {
     e.data.this.trigger('modal.before.show', e);
-    this.offAll();
   },
 
   onModalShow: function (e) {
@@ -418,7 +417,6 @@ var Responsive = Backbone.View.extend({
 
   onModalBeforeHide: function (e) {
     e.data.this.trigger('modal.before.hide', e);
-    this.offAll();
   },
 
   /**
@@ -431,7 +429,6 @@ var Responsive = Backbone.View.extend({
   onModalHide: function (e) {
     var that = e.data.this;
     that.trigger('modal.hide', e);
-    this.offAll();
     // e.target.remove();
     // that.$('#' + that.id).remove();
   },
