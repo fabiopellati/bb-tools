@@ -1,0 +1,12 @@
+<label class="<%= attributes.label_class %> control-label" for="<%= editorId %>"><%= title %></label>
+<div class="<%= attributes.field_class %>">
+    <select class="<%= attributes.form_control_class %> form-control data-editor"
+            id="<%= editorId %>" <%=disabled%> >
+                                 <% for(i=0;i < options.length;i++){%>
+                                 <% var option=options[i];%>
+    <option value="<%= option.value %>"><%= option.option %></option>
+                                 <% }%>
+    </select>
+    <p class="<%= attributes.data_error_class %> help-block data-error"></p>
+    <p class="<%= attributes.help_block_class %>help-block"><%= help %></p>
+</div>

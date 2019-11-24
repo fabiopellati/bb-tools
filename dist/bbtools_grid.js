@@ -640,7 +640,7 @@ var HeadCellComponentView = Backbone.View.extend({
 module.exports = HeadCellComponentView;
 },{}],9:[function(require,module,exports){
 'use strict';
-var template = require('./template/head_cell.html');
+var template = require('./template/head_cell.hbs');
 
 var HeadCellStringView = Backbone.View.extend({
     tagName: 'th',
@@ -709,7 +709,7 @@ var HeadCellStringView = Backbone.View.extend({
 });
 module.exports = HeadCellStringView;
 
-},{"./template/head_cell.html":13}],10:[function(require,module,exports){
+},{"./template/head_cell.hbs":13}],10:[function(require,module,exports){
 'use strict';
 
 var HeadCellStringView = require('./HeadCellStringView');
@@ -995,7 +995,7 @@ module.exports = "<div class=\"th-inner sortable both\" data-field=\"<%- value %
 },{}],14:[function(require,module,exports){
 'use strict';
 
-var template = require('./template/page_navigator.html');
+var template = require('./template/page_navigator.hbs');
 
 var PageNavigatorView = Backbone.View.extend({
     initialize: function (options) {
@@ -1101,14 +1101,14 @@ var PageNavigatorView = Backbone.View.extend({
 });
 module.exports = PageNavigatorView;
 
-},{"./template/page_navigator.html":15}],15:[function(require,module,exports){
+},{"./template/page_navigator.hbs":15}],15:[function(require,module,exports){
 module.exports = "<div class=\"row\">\n    <div class=\"col-md-5 col-sm-12\">\n        <div class=\"dataTables_info\" id=\"sample_1_info\" role=\"status\" aria-live=\"polite\">Pagina\n            <%= page %>\n            di <%= page_count %>\n            su <%= total_items %> record\n        </div>\n    </div>\n    <div class=\"col-md-7 col-sm-12\">\n        <div class=\"\" id=\"sample_1_paginate\">\n            <ul class=\"pagination\" style=\"visibility: visible;\">\n                <%\n                var first_class='disabled'\n                var prev_class='disabled'\n                if( page > 1) {\n                prev_class='prev';\n                first_class='first';\n                }\n                %>\n                <li class=\"<%= first_class %>\" data-page=\"<%= 1 %>\">\n                    <a title=\"First\">\n                        <i class=\"fa fa-angle-double-left\"></i>\n                    </a>\n                </li>\n                <li class=\"<%= prev_class %>\" data-page=\"<%= page - 1 %>\">\n                    <a title=\"Prev\">\n                        <i class=\"fa fa-angle-left\"></i>\n                    </a>\n                </li>\n\n                <% for(i=0;i < nav_pages.length;i++){ %>\n                <% var nav_page=nav_pages[i]; %>\n                <li class=\"<%= nav_page.class %>\" data-page=\"<%= nav_page.data_page %>\">\n                    <a title=\"Page_<%= nav_page.caption%>\"><%= nav_page.caption%></a>\n                </li>\n                <% } %>\n\n\n                <%\n                var next_class='disabled'\n                var last_class='disabled'\n                if( page < page_count) {\n                next_class='next';\n                last_class='last';\n                }\n                %>\n                <li class=\"<%= next_class%>\" data-page=\"<%= page + 1 %>\">\n                    <a title=\"Next\">\n                        <i class=\"fa fa-angle-right\"></i>\n                    </a>\n                </li>\n                <li class=\"<%= last_class%>\" data-page=\"<%= page_count %>\">\n                    <a title=\"Last\">\n                        <i class=\"fa fa-angle-double-right\"></i>\n                    </a>\n                </li>\n                <li class=\"refresh\" data-page=\"<%= page %>\">\n                    <a title=\"refresh\">\n                        <i class=\"fa fa-refresh\"></i>\n                    </a>\n                </li>\n            </ul>\n        </div>\n    </div>\n</div>\n";
 
 },{}],16:[function(require,module,exports){
 'use strict';
 
 var IconButtonView = require('../Toolbar/IconButtonView');
-var template = require('./template/search.html');
+var template = require('./template/search.hbs');
 var SearchView = Backbone.View.extend({
     initialize: function (options) {
         if (typeof  options.template != 'undefined') {
@@ -1192,7 +1192,8 @@ var SearchView = Backbone.View.extend({
     }
 });
 module.exports = SearchView;
-},{"../Toolbar/IconButtonView":19,"./template/search.html":17}],17:[function(require,module,exports){
+
+},{"../Toolbar/IconButtonView":19,"./template/search.hbs":17}],17:[function(require,module,exports){
 module.exports = "<input class=\"form-control\" type=\"text\" placeholder=\"Search\">\n";
 
 },{}],18:[function(require,module,exports){
@@ -1309,49 +1310,20 @@ Toolbar.IconButtonView = require('./IconButtonView');
 Toolbar.ButtonGroupView = require('./ButtonGroupView');
 module.exports = Toolbar;
 },{"./ButtonGroupView":18,"./IconButtonView":19}],21:[function(require,module,exports){
-(function (global){
 'use strict';
 
 
-(function (factory) {
-
-    // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
-    // We use `self` instead of `window` for `WebWorker` support.
-    var root = (typeof self == 'object' && self.self === self && self) ||
-        (typeof global == 'object' && global.global === global && global);
-
-    // Set up Backbone appropriately for the environment. Start with AMD.
-    if (typeof define === 'function' && define.amd) {
-        define(['exports'], function (exports) {
-            root.BbToolsGrid = factory(root, exports);
-        });
-
-        // Next for Node.js or CommonJS.
-    } else if (typeof exports !== 'undefined') {
-        factory(root, exports);
-
-        // Finally, as a browser global.
-    } else {
-        root.BbToolsGrid = factory(root, {});
-    }
-
-})(function (root, BbToolsGrid) {
-
-    var BbToolsGrid = {};
-    BbToolsGrid.Router = require('./Router/CrudGridRouter');
-    BbToolsGrid.Grid = require('./View/Grid/Grid');
-    BbToolsGrid.PageNavigatorView = require('./View/PageNavigator/PageNavigatorView');
-    BbToolsGrid.Toolbar = require('./View/Toolbar/Toolbar');
-    BbToolsGrid.SearchView = require('./View/Search/SearchView');
+var BbToolsGrid = {};
+BbToolsGrid.Router = require('./Router/CrudGridRouter');
+BbToolsGrid.Grid = require('./View/Grid/Grid');
+BbToolsGrid.PageNavigatorView = require('./View/PageNavigator/PageNavigatorView');
+BbToolsGrid.Toolbar = require('./View/Toolbar/Toolbar');
+BbToolsGrid.SearchView = require('./View/Search/SearchView');
 
 
-    BbToolsGrid.init = function () {
-    };
+BbToolsGrid.init = function () {
+};
 
+module.exports = BbToolsGrid;
 
-    root.BbToolsGrid = BbToolsGrid;
-    return BbToolsGrid;
-});
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./Router/CrudGridRouter":1,"./View/Grid/Grid":7,"./View/PageNavigator/PageNavigatorView":14,"./View/Search/SearchView":16,"./View/Toolbar/Toolbar":20}]},{},[21]);

@@ -533,7 +533,7 @@ module.exports = ReadOnlyEditorView;
  *
  */
 var BaseView = require('../../FormFieldEditorView');
-var SelectEditorTemplate = require('./template/SelectEditorTemplate.html');
+var SelectEditorTemplate = require('./template/SelectEditorTemplate.hbs');
 
 /**
  * genera una select con le options statiche
@@ -673,7 +673,8 @@ var SelectEditorView = BaseView.extend({
     }
 });
 module.exports = SelectEditorView;
-},{"../../FormFieldEditorView":1,"./template/SelectEditorTemplate.html":10}],7:[function(require,module,exports){
+
+},{"../../FormFieldEditorView":1,"./template/SelectEditorTemplate.hbs":10}],7:[function(require,module,exports){
 'use strict';
 
 
@@ -682,7 +683,7 @@ module.exports = SelectEditorView;
  *
  */
 var BaseView = require('../../FormFieldEditorView');
-var SelectEditorTemplate = require('./template/SelectEditorTemplate.html');
+var SelectEditorTemplate = require('./template/SelectEditorTemplate.hbs');
 
 /**
  * genera una select con le options basate su una collection
@@ -867,7 +868,8 @@ SelectModelEditorView = BaseView.extend({
 
 });
 module.exports = SelectModelEditorView;
-},{"../../FormFieldEditorView":1,"./template/SelectEditorTemplate.html":10}],8:[function(require,module,exports){
+
+},{"../../FormFieldEditorView":1,"./template/SelectEditorTemplate.hbs":10}],8:[function(require,module,exports){
 'use strict';
 
 
@@ -875,8 +877,8 @@ module.exports = SelectModelEditorView;
  * specs:
  *
  */
-var TextEditorTemplate = require('./template/TextEditorTemplate.html');
-var ReadOnlyTextEditorTemplate = require('./template/ReadOnlyTextEditorTemplate.html');
+var TextEditorTemplate = require('./template/TextEditorTemplate.hbs');
+var ReadOnlyTextEditorTemplate = require('./template/ReadOnlyTextEditorTemplate.hbs');
 var FormFieldEditorView = require('../../FormFieldEditorView');
 
 var TextEditorView = FormFieldEditorView.extend({
@@ -1102,7 +1104,7 @@ var TextEditorView = FormFieldEditorView.extend({
 });
 module.exports = TextEditorView;
 
-},{"../../FormFieldEditorView":1,"./template/ReadOnlyTextEditorTemplate.html":9,"./template/TextEditorTemplate.html":11}],9:[function(require,module,exports){
+},{"../../FormFieldEditorView":1,"./template/ReadOnlyTextEditorTemplate.hbs":9,"./template/TextEditorTemplate.hbs":11}],9:[function(require,module,exports){
 module.exports = "<label class=\"<%= attributes.label_class %> control-label\" for=\"<%= editorId %>\"><%= title %></label>\n<div class=\"<%= attributes.field_class %>\">\n    <div class=\"<%= attributes.form_control_class %> form-control data-editor\" id=\"<%= editorId %>\" readonly></div>\n    <p class=\"<%= attributes.data_error_class %> help-block data-error\"></p>\n    <p class=\"<%= attributes.help_block_class %>help-block\"><%= help %></p>\n</div>\n";
 
 },{}],10:[function(require,module,exports){
@@ -1191,34 +1193,7 @@ var Router = Backbone.Router.extend({
 module.exports = Router;
 
 },{}],13:[function(require,module,exports){
-(function (global){
 'use strict';
-
-
-(function (factory) {
-
-    // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
-    // We use `self` instead of `window` for `WebWorker` support.
-    var root = (typeof self == 'object' && self.self === self && self) ||
-        (typeof global == 'object' && global.global === global && global);
-
-    // Set up Backbone appropriately for the environment. Start with AMD.
-    if (typeof define === 'function' && define.amd) {
-        define(['exports'], function (exports) {
-            root.BbToolsForm = factory(root, exports);
-        });
-
-        // Next for Node.js or CommonJS.
-    } else if (typeof exports !== 'undefined') {
-        factory(root, exports);
-
-        // Finally, as a browser global.
-    } else {
-        root.BbToolsForm = factory(root, {});
-    }
-
-
-})(function (root, BbToolsForm) {
 
 
     var BbToolsForm = {};
@@ -1239,9 +1214,6 @@ module.exports = Router;
     };
 
 
-    root.BbToolsForm = BbToolsForm;
-    return BbToolsForm;
-});
+module.exports = BbToolsForm;
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./Form/editors/ButtonCommitEditorView":2,"./Form/editors/ButtonEditorView":3,"./Form/editors/bootstrap/DateTextEditorView":4,"./Form/editors/bootstrap/ReadOnlyEditorView":5,"./Form/editors/bootstrap/SelectEditorView":6,"./Form/editors/bootstrap/SelectModelEditorView":7,"./Form/editors/bootstrap/TextEditorView":8,"./Router/CrudFormRouter":12}]},{},[13]);

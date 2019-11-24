@@ -5,7 +5,7 @@ module.exports = function (grunt) {
                 src: ['./src/bbtools_grid.js'],
                 dest: './dist/bbtools_grid.js',
                 options: {
-                    external: ['jquery', 'backbone'],
+                    // external: ['jquery', 'backbone'],
                     transform: ['stringify'],
                 }
             },
@@ -13,7 +13,7 @@ module.exports = function (grunt) {
                 src: ['./src/bbtools_form.js'],
                 dest: './dist/bbtools_form.js',
                 options: {
-                    external: ['jquery', 'backbone'],
+                    // external: ['jquery', 'backbone'],
                     transform: ['stringify']
                 }
             },
@@ -21,7 +21,7 @@ module.exports = function (grunt) {
                 src: ['./src/bbtools.js'],
                 dest: './dist/bbtools.js',
                 options: {
-                    external: ['jquery', 'backbone'],
+                    // external: ['jquery', 'backbone'],
                     transform: ['stringify']
                 }
             },
@@ -29,7 +29,7 @@ module.exports = function (grunt) {
         },
         watch: {
             scripts: {
-                files: ['./src/**/*.js', './src/*.js','./src/**/*.html', './src/*.html'],
+                files: ['./src/**/*.js', './src/*.js','./src/**/*.hbs', './src/*.html'],
                 // tasks: ['browserify', 'copy'],
                 tasks: ['browserify', 'uglify'],
                 options: {

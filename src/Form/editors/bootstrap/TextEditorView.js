@@ -5,8 +5,8 @@
  * specs:
  *
  */
-var TextEditorTemplate = require('./template/TextEditorTemplate.html');
-var ReadOnlyTextEditorTemplate = require('./template/ReadOnlyTextEditorTemplate.html');
+var TextEditorTemplate = require('./template/TextEditorTemplate.hbs');
+var ReadOnlyTextEditorTemplate = require('./template/ReadOnlyTextEditorTemplate.hbs');
 var FormFieldEditorView = require('../../FormFieldEditorView');
 
 var TextEditorView = FormFieldEditorView.extend({
